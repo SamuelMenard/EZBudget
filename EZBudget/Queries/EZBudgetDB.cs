@@ -78,6 +78,16 @@ namespace EZBudget.Queries
             return totalBudgeted;
         }
 
+        public static decimal GetCurrentMonthTotalExpenses(int userID)
+        {
+            return (from user in context.Users
+                    where user.UserID == userID
+                    select user).FirstOrDefault().Budgets.FirstOrDefault()
+                    .Category_Global.Select(x => x.Category_Monthly).SelectMany(x => x)
+                    .Select(x => x.Expenses).SelectMany(x => x)
+                    .Where(x => x.CreationDate.Month == DateTime.Now.Month && x.CreationDate.Year == DateTime.Now.Year).Sum(x => x.Amount);
+        }
+
         public static ObservableCollection<Category> GetCurrentMonthBudgetCategories(int userID)
         {
             ObservableCollection<Category> Categories = new ObservableCollection<Category>();
@@ -133,7 +143,7 @@ namespace EZBudget.Queries
                     .Select(x => x.Category_Monthly)
                     .SelectMany(y => y)
                     .Select(x => x.Expenses)
-                    .SelectMany(y => y)
+                    .SelectMany(y => y).Where(x => x.CreationDate <= DateTime.Now.AddMonths(-1))
                     .GroupBy(
                     expense => new { Month = expense.CreationDate.Month, Year = expense.CreationDate.Year},
                     (key, expenses) => new PastMonth
@@ -141,7 +151,7 @@ namespace EZBudget.Queries
                         Date = expenses.FirstOrDefault().CreationDate,
                         TotalExpenses = Math.Round(expenses.Sum(x => x.Amount), 2)
                     }
-                    ).ToList();
+                    ).OrderByDescending(x => x.Date).ToList();
 
             }
             catch

@@ -134,7 +134,7 @@ namespace EZBudget.ViewModel.SidebarViewModels
             }
 
             // Get and set "Total monthly expenses"
-            TotalExpenses = Math.Round(EZBudgetDB.GetTotalMonthlyBudgeted(LogedInUserID), 2);
+            TotalExpenses = Math.Round(EZBudgetDB.GetCurrentMonthTotalExpenses(LogedInUserID), 2);
 
             // Get and set "Total monthly budgeted"
             TotalBudgeted = Math.Round(EZBudgetDB.GetTotalMonthlyBudgeted(LogedInUserID), 2);
