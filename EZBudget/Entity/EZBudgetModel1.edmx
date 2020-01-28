@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EZBudget_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Budget">
+          <Key>
+            <PropertyRef Name="BudgetID" />
+          </Key>
+          <Property Name="BudgetID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="BudgetName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreationDate" Type="date" Nullable="false" />
+          <Property Name="LastModifDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category_Global">
+          <Key>
+            <PropertyRef Name="CategoryGlobalID" />
+          </Key>
+          <Property Name="CategoryGlobalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BudgetID" Type="int" />
+          <Property Name="CategoryName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CategoryDescription" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="ColorTag" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Category_Monthly">
+          <Key>
+            <PropertyRef Name="CategoryMonthlyID" />
+          </Key>
+          <Property Name="CategoryMonthlyID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryGlobalID" Type="int" />
+          <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="CreationDate" Type="date" Nullable="false" />
+          <Property Name="LastModifDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Expense">
+          <Key>
+            <PropertyRef Name="ExpenseID" />
+          </Key>
+          <Property Name="ExpenseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryMonthlyID" Type="int" />
+          <Property Name="ExpenseName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ExpenseDescription" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="CreationDate" Type="date" Nullable="false" />
+          <Property Name="LastModifDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="UserPassword" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User_Setting">
+          <Key>
+            <PropertyRef Name="SettingID" />
+          </Key>
+          <Property Name="SettingID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="AccountCreationDate" Type="date" Nullable="false" />
+          <Property Name="LastLoginDate" Type="date" Nullable="false" />
+          <Property Name="Language" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Budget__UserID__690797E6">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Budget" Type="Self.Budget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Budget">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Category___Budge__6BE40491">
+          <End Role="Budget" Type="Self.Budget" Multiplicity="0..1" />
+          <End Role="Category_Global" Type="Self.Category_Global" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Budget">
+              <PropertyRef Name="BudgetID" />
+            </Principal>
+            <Dependent Role="Category_Global">
+              <PropertyRef Name="BudgetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Category___Categ__6EC0713C">
+          <End Role="Category_Global" Type="Self.Category_Global" Multiplicity="0..1" />
+          <End Role="Category_Monthly" Type="Self.Category_Monthly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category_Global">
+              <PropertyRef Name="CategoryGlobalID" />
+            </Principal>
+            <Dependent Role="Category_Monthly">
+              <PropertyRef Name="CategoryGlobalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expense__Categor__719CDDE7">
+          <End Role="Category_Monthly" Type="Self.Category_Monthly" Multiplicity="0..1" />
+          <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category_Monthly">
+              <PropertyRef Name="CategoryMonthlyID" />
+            </Principal>
+            <Dependent Role="Expense">
+              <PropertyRef Name="CategoryMonthlyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User_Sett__UserI__662B2B3B">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User_Setting" Type="Self.User_Setting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="User_Setting">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EZBudget_DBModelStoreContainer">
+          <EntitySet Name="Budget" EntityType="Self.Budget" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category_Global" EntityType="Self.Category_Global" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Category_Monthly" EntityType="Self.Category_Monthly" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_Setting" EntityType="Self.User_Setting" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Budget__UserID__690797E6" Association="Self.FK__Budget__UserID__690797E6">
+            <End Role="User" EntitySet="User" />
+            <End Role="Budget" EntitySet="Budget" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Category___Budge__6BE40491" Association="Self.FK__Category___Budge__6BE40491">
+            <End Role="Budget" EntitySet="Budget" />
+            <End Role="Category_Global" EntitySet="Category_Global" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Category___Categ__6EC0713C" Association="Self.FK__Category___Categ__6EC0713C">
+            <End Role="Category_Global" EntitySet="Category_Global" />
+            <End Role="Category_Monthly" EntitySet="Category_Monthly" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expense__Categor__719CDDE7" Association="Self.FK__Expense__Categor__719CDDE7">
+            <End Role="Category_Monthly" EntitySet="Category_Monthly" />
+            <End Role="Expense" EntitySet="Expense" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User_Sett__UserI__662B2B3B" Association="Self.FK__User_Sett__UserI__662B2B3B">
+            <End Role="User" EntitySet="User" />
+            <End Role="User_Setting" EntitySet="User_Setting" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EZBudget_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Budget">
+          <Key>
+            <PropertyRef Name="BudgetID" />
+          </Key>
+          <Property Name="BudgetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="BudgetName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="LastModifDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Budget__UserID__690797E6" FromRole="Budget" ToRole="User" />
+          <NavigationProperty Name="Category_Global" Relationship="Self.FK__Category___Budge__6BE40491" FromRole="Budget" ToRole="Category_Global" />
+        </EntityType>
+        <EntityType Name="Category_Global">
+          <Key>
+            <PropertyRef Name="CategoryGlobalID" />
+          </Key>
+          <Property Name="CategoryGlobalID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BudgetID" Type="Int32" />
+          <Property Name="CategoryName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CategoryDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ColorTag" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Budget" Relationship="Self.FK__Category___Budge__6BE40491" FromRole="Category_Global" ToRole="Budget" />
+          <NavigationProperty Name="Category_Monthly" Relationship="Self.FK__Category___Categ__6EC0713C" FromRole="Category_Global" ToRole="Category_Monthly" />
+        </EntityType>
+        <EntityType Name="Category_Monthly">
+          <Key>
+            <PropertyRef Name="CategoryMonthlyID" />
+          </Key>
+          <Property Name="CategoryMonthlyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryGlobalID" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="LastModifDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Category_Global" Relationship="Self.FK__Category___Categ__6EC0713C" FromRole="Category_Monthly" ToRole="Category_Global" />
+          <NavigationProperty Name="Expenses" Relationship="Self.FK__Expense__Categor__719CDDE7" FromRole="Category_Monthly" ToRole="Expense" />
+        </EntityType>
+        <EntityType Name="Expense">
+          <Key>
+            <PropertyRef Name="ExpenseID" />
+          </Key>
+          <Property Name="ExpenseID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryMonthlyID" Type="Int32" />
+          <Property Name="ExpenseName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ExpenseDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="LastModifDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Category_Monthly" Relationship="Self.FK__Expense__Categor__719CDDE7" FromRole="Expense" ToRole="Category_Monthly" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Budgets" Relationship="Self.FK__Budget__UserID__690797E6" FromRole="User" ToRole="Budget" />
+          <NavigationProperty Name="User_Setting" Relationship="Self.FK__User_Sett__UserI__662B2B3B" FromRole="User" ToRole="User_Setting" />
+        </EntityType>
+        <EntityType Name="User_Setting">
+          <Key>
+            <PropertyRef Name="SettingID" />
+          </Key>
+          <Property Name="SettingID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="AccountCreationDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="LastLoginDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Language" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK__User_Sett__UserI__662B2B3B" FromRole="User_Setting" ToRole="User" />
+        </EntityType>
+        <Association Name="FK__Budget__UserID__690797E6">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Budget" Type="Self.Budget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Budget">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Category___Budge__6BE40491">
+          <End Role="Budget" Type="Self.Budget" Multiplicity="0..1" />
+          <End Role="Category_Global" Type="Self.Category_Global" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Budget">
+              <PropertyRef Name="BudgetID" />
+            </Principal>
+            <Dependent Role="Category_Global">
+              <PropertyRef Name="BudgetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Category___Categ__6EC0713C">
+          <End Role="Category_Global" Type="Self.Category_Global" Multiplicity="0..1" />
+          <End Role="Category_Monthly" Type="Self.Category_Monthly" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category_Global">
+              <PropertyRef Name="CategoryGlobalID" />
+            </Principal>
+            <Dependent Role="Category_Monthly">
+              <PropertyRef Name="CategoryGlobalID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Expense__Categor__719CDDE7">
+          <End Role="Category_Monthly" Type="Self.Category_Monthly" Multiplicity="0..1" />
+          <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Category_Monthly">
+              <PropertyRef Name="CategoryMonthlyID" />
+            </Principal>
+            <Dependent Role="Expense">
+              <PropertyRef Name="CategoryMonthlyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__User_Sett__UserI__662B2B3B">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="User_Setting" Type="Self.User_Setting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="User_Setting">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EZBudget_DBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Budgets" EntityType="Self.Budget" />
+          <EntitySet Name="Category_Global" EntityType="Self.Category_Global" />
+          <EntitySet Name="Category_Monthly" EntityType="Self.Category_Monthly" />
+          <EntitySet Name="Expenses" EntityType="Self.Expense" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="User_Setting" EntityType="Self.User_Setting" />
+          <AssociationSet Name="FK__Budget__UserID__690797E6" Association="Self.FK__Budget__UserID__690797E6">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Budget" EntitySet="Budgets" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Category___Budge__6BE40491" Association="Self.FK__Category___Budge__6BE40491">
+            <End Role="Budget" EntitySet="Budgets" />
+            <End Role="Category_Global" EntitySet="Category_Global" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Category___Categ__6EC0713C" Association="Self.FK__Category___Categ__6EC0713C">
+            <End Role="Category_Global" EntitySet="Category_Global" />
+            <End Role="Category_Monthly" EntitySet="Category_Monthly" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Expense__Categor__719CDDE7" Association="Self.FK__Expense__Categor__719CDDE7">
+            <End Role="Category_Monthly" EntitySet="Category_Monthly" />
+            <End Role="Expense" EntitySet="Expenses" />
+          </AssociationSet>
+          <AssociationSet Name="FK__User_Sett__UserI__662B2B3B" Association="Self.FK__User_Sett__UserI__662B2B3B">
+            <End Role="User" EntitySet="Users" />
+            <End Role="User_Setting" EntitySet="User_Setting" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EZBudget_DBModelStoreContainer" CdmEntityContainer="EZBudget_DBEntities1">
+          <EntitySetMapping Name="Budgets">
+            <EntityTypeMapping TypeName="EZBudget_DBModel.Budget">
+              <MappingFragment StoreEntitySet="Budget">
+                <ScalarProperty Name="BudgetID" ColumnName="BudgetID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="BudgetName" ColumnName="BudgetName" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="LastModifDate" ColumnName="LastModifDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category_Global">
+            <EntityTypeMapping TypeName="EZBudget_DBModel.Category_Global">
+              <MappingFragment StoreEntitySet="Category_Global">
+                <ScalarProperty Name="CategoryGlobalID" ColumnName="CategoryGlobalID" />
+                <ScalarProperty Name="BudgetID" ColumnName="BudgetID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryDescription" ColumnName="CategoryDescription" />
+                <ScalarProperty Name="ColorTag" ColumnName="ColorTag" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Category_Monthly">
+            <EntityTypeMapping TypeName="EZBudget_DBModel.Category_Monthly">
+              <MappingFragment StoreEntitySet="Category_Monthly">
+                <ScalarProperty Name="CategoryMonthlyID" ColumnName="CategoryMonthlyID" />
+                <ScalarProperty Name="CategoryGlobalID" ColumnName="CategoryGlobalID" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="LastModifDate" ColumnName="LastModifDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Expenses">
+            <EntityTypeMapping TypeName="EZBudget_DBModel.Expense">
+              <MappingFragment StoreEntitySet="Expense">
+                <ScalarProperty Name="ExpenseID" ColumnName="ExpenseID" />
+                <ScalarProperty Name="CategoryMonthlyID" ColumnName="CategoryMonthlyID" />
+                <ScalarProperty Name="ExpenseName" ColumnName="ExpenseName" />
+                <ScalarProperty Name="ExpenseDescription" ColumnName="ExpenseDescription" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="LastModifDate" ColumnName="LastModifDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="EZBudget_DBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserPassword" ColumnName="UserPassword" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_Setting">
+            <EntityTypeMapping TypeName="EZBudget_DBModel.User_Setting">
+              <MappingFragment StoreEntitySet="User_Setting">
+                <ScalarProperty Name="SettingID" ColumnName="SettingID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="AccountCreationDate" ColumnName="AccountCreationDate" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="Language" ColumnName="Language" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
