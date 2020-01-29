@@ -93,41 +93,42 @@
     <Compile Include="AttachedProperties\MonitorPasswordProperty.cs" />
     <Compile Include="DataModels\ApplicationPageEnum.cs" />
     <Compile Include="DataModels\Category.cs" />
+    <Compile Include="DataModels\ColorBrush.cs" />
     <Compile Include="DataModels\ErrorCodesEnum.cs" />
     <Compile Include="DataModels\PastMonth.cs" />
     <Compile Include="DataModels\Validators.cs" />
     <Compile Include="Entity\Budget.cs">
-      <DependentUpon>EZBudgetModel1.tt</DependentUpon>
+      <DependentUpon>EZBudgetModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Category_Global.cs">
-      <DependentUpon>EZBudgetModel1.tt</DependentUpon>
+      <DependentUpon>EZBudgetModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Category_Monthly.cs">
-      <DependentUpon>EZBudgetModel1.tt</DependentUpon>
+      <DependentUpon>EZBudgetModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\Expense.cs">
-      <DependentUpon>EZBudgetModel1.tt</DependentUpon>
+      <DependentUpon>EZBudgetModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entity\EZBudgetModel1.Context.cs">
+    <Compile Include="Entity\EZBudgetModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EZBudgetModel1.Context.tt</DependentUpon>
+      <DependentUpon>EZBudgetModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entity\EZBudgetModel1.cs">
+    <Compile Include="Entity\EZBudgetModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EZBudgetModel1.tt</DependentUpon>
+      <DependentUpon>EZBudgetModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entity\EZBudgetModel1.Designer.cs">
+    <Compile Include="Entity\EZBudgetModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EZBudgetModel1.edmx</DependentUpon>
+      <DependentUpon>EZBudgetModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Entity\User.cs">
-      <DependentUpon>EZBudgetModel1.tt</DependentUpon>
+      <DependentUpon>EZBudgetModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Entity\User_Setting.cs">
-      <DependentUpon>EZBudgetModel1.tt</DependentUpon>
+      <DependentUpon>EZBudgetModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Pages\LoginPage.xaml.cs">
       <DependentUpon>LoginPage.xaml</DependentUpon>
@@ -143,6 +144,9 @@
     </Compile>
     <Compile Include="PopupForms\EditCategoryWindow.xaml.cs">
       <DependentUpon>EditCategoryWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PopupForms\ImageFullScreenViewerWindow.xaml.cs">
+      <DependentUpon>ImageFullScreenViewerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PopupForms\ViewModel\AddExpenseViewModel.cs" />
     <Compile Include="PopupForms\ViewModel\AddCategoryViewModel.cs" />
@@ -199,6 +203,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PopupForms\EditCategoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopupForms\ImageFullScreenViewerWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -270,12 +278,12 @@
     <Resource Include="Fonts\Font Awesome 5 Brands-Regular-400.otf" />
     <Resource Include="Fonts\Font Awesome 5 Free-Regular-400.otf" />
     <Resource Include="Fonts\Font Awesome 5 Free-Solid-900.otf" />
-    <EntityDeploy Include="Entity\EZBudgetModel1.edmx">
+    <EntityDeploy Include="Entity\EZBudgetModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EZBudgetModel1.Designer.cs</LastGenOutput>
+      <LastGenOutput>EZBudgetModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Entity\EZBudgetModel1.edmx.diagram">
-      <DependentUpon>EZBudgetModel1.edmx</DependentUpon>
+    <None Include="Entity\EZBudgetModel.edmx.diagram">
+      <DependentUpon>EZBudgetModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -296,17 +304,23 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Entity\EZBudgetModel1.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EZBudgetModel1.edmx</DependentUpon>
-      <LastGenOutput>EZBudgetModel1.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Entity\EZBudgetModel1.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EZBudgetModel1.edmx</DependentUpon>
-      <LastGenOutput>EZBudgetModel1.cs</LastGenOutput>
-    </Content>
     <Resource Include="Images\Logo\marshmallow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entity\EZBudgetModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EZBudgetModel.edmx</DependentUpon>
+      <LastGenOutput>EZBudgetModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entity\EZBudgetModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EZBudgetModel.edmx</DependentUpon>
+      <LastGenOutput>EZBudgetModel.cs</LastGenOutput>
+    </Content>
+    <Resource Include="Images\Others\no_image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\Bills\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.6.0.5\build\Fody.targets" Condition="Exists('..\packages\Fody.6.0.5\build\Fody.targets')" />

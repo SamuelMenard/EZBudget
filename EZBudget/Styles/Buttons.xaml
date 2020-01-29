@@ -392,6 +392,102 @@
         </Setter>
     </Style>
 
+    <!-- Small icon fullscreen button  -->
+    <Style x:Key="SmallIconFullScreenButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeVerySmall}"/>
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Grid>
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Background="{TemplateBinding Background}" 
+                            SnapsToDevicePixels="True"
+                                CornerRadius="15">
+
+                            <TextBlock x:Name="contentPresenter_icon" Text="&#xf2d2;" 
+                                   Focusable="False" 
+                                   FontFamily="{StaticResource FontAwesomeSolid}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource BackgroundLightGrayBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="Transparent"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Small icon trash button  -->
+    <Style x:Key="SmallIconTrashButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}">
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeVerySmall}"/>
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Grid>
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Background="{TemplateBinding Background}" 
+                            SnapsToDevicePixels="True"
+                                CornerRadius="15">
+
+                            <TextBlock x:Name="contentPresenter_icon" Text="&#xf1f8;" 
+                                   Focusable="False" 
+                                   FontFamily="{StaticResource FontAwesomeSolid}"
+                                       FontSize="{TemplateBinding FontSize}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource BackgroundLightGrayBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="Transparent"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- Create category button -->
     <Style x:Key="CreateCategoryButton" TargetType="{x:Type Button}" BasedOn="{StaticResource BaseStyle}">
         <Setter Property="Background" Value="{StaticResource SB_Selected_LinearGradient}"/>

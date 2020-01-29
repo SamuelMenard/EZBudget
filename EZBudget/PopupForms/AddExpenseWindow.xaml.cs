@@ -1,5 +1,6 @@
 ﻿using EZBudget.DataModels;
 using EZBudget.PopupForms.ViewModel;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -102,6 +103,35 @@ namespace EZBudget.PopupForms
                 _mViewModel.IsExpenseValid = true;
                 this.Close();
             }
+        }
+
+        private void btnBrowseFiles_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                _mViewModel.ReceiptUrl = openFileDialog.FileName;
+                _mViewModel.ReceiptUrlPreview = openFileDialog.FileName;
+            }
+        }
+
+        private void btnTrash_Click(object sender, RoutedEventArgs e)
+        {
+            _mViewModel.ReceiptUrl = null;
+            _mViewModel.ResetImagePreview();
+        }
+
+        private void btnFullScreen_Click(object sender, RoutedEventArgs e)
+        {
+            if (_mViewModel.ReceiptUrl != null && _mViewModel.ReceiptUrl != "")
+                new ImageFullScreenViewerWindow(_mViewModel.ReceiptUrl).ShowDialog();
+        }
+
+        private void btnCloseWindow_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

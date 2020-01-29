@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EZBudget.UserControls.SideBarUserControls"
              xmlns:converters="clr-namespace:EZBudget.ValueConverter"
+             xmlns:datamodels="clr-namespace:EZBudget.DataModels"
+             xmlns:entities="clr-namespace:EZBudget.Entity"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1000">
 
@@ -132,7 +134,97 @@
                                 Command="{Binding AddExpenseClick}"/>
 
                         <!-- Categories treeview -->
-                        
+                        <TreeView Grid.Row="2" ItemsSource="{Binding Categories}"
+                                  BorderThickness="0" Margin="0 8 0 0">
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type datamodels:Category}" ItemsSource="{Binding Expenses}">
+                                    <Border Margin="0 0 0 8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="125"/>
+                                                <ColumnDefinition Width="125"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Category color tag -->
+                                            <TextBlock Text="&#xf111;" Grid.Column="0"
+                                                   Style="{StaticResource TextBlockCategoryCircle}"
+                                                   Foreground="{Binding ColorTag, Converter={x:Static converters:HexToBrushConverter.instance}}"/>
+
+                                            <!-- Category name -->
+                                            <TextBlock Text="{Binding Name}" Grid.Column="1"
+                                                   Style="{StaticResource TextBlockCategory}"/>
+
+                                            <StackPanel Orientation="Horizontal" Grid.Column="2">
+                                                <!-- Category total expenses -->
+                                                <TextBlock Text="{Binding TotalExpenses}"
+                                                   Style="{StaticResource TextBlockCategory}"/>
+
+                                                <!-- Currency -->
+                                                <TextBlock Text="{StaticResource Currency}"
+                                                   Style="{StaticResource TextBlockCategory}"/>
+                                            </StackPanel>
+
+                                            <StackPanel Orientation="Horizontal" Grid.Column="3">
+                                                <!-- Category budget left -->
+                                                <TextBlock Text="{Binding BudgetLeft}"
+                                                   Style="{StaticResource TextBlockCategory}"
+                                                           Foreground="{Binding BudgetLeftColor}"/>
+
+                                                <!-- Currency -->
+                                                <TextBlock Text="{StaticResource Currency}"
+                                                   Style="{StaticResource TextBlockCategory}"
+                                                           Foreground="{Binding BudgetLeftColor}"/>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Border>
+                                </HierarchicalDataTemplate>
+                                <DataTemplate DataType="{x:Type entities:Expense}">
+                                    <Border Margin="30 0 0 8">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="30"/>
+                                            </Grid.ColumnDefinitions>
+
+
+                                            <!-- Expense name -->
+                                            <TextBlock Text="{Binding ExpenseName}" Grid.Column="0"
+                                                   Style="{StaticResource TextBlockCategory}"/>
+
+                                            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                                <!-- Expense amount -->
+                                                <TextBlock Text="{Binding Amount}"
+                                                   Style="{StaticResource TextBlockCategory}"/>
+
+                                                <!-- Currency -->
+                                                <TextBlock Text="{StaticResource Currency}"
+                                                   Style="{StaticResource TextBlockCategory}"/>
+                                            </StackPanel>
+
+                                            <!-- Category edit button -->
+                                            <Button Content="" Grid.Column="2"
+                                                    Style="{StaticResource SmallIconEditButton}"
+                                                    Command="{Binding Path=DataContext.EditExpenseClick,
+                                                                  RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                  AncestorType={x:Type UserControl}}}"
+                                                    CommandParameter="{Binding ExpenseID}"/>
+
+                                            <!-- Category delete button -->
+                                            <Button Content="" Grid.Column="3"
+                                                    Style="{StaticResource SmallIconDeleteButton}"
+                                                    Command="{Binding Path=DataContext.DeleteExpenseClick,
+                                                                  RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                  AncestorType={x:Type UserControl}}}"
+                                                    CommandParameter="{Binding ExpenseID}"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </TreeView.Resources>
+                        </TreeView>
 
                     </Grid>
 

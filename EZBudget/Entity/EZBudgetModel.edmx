@@ -45,6 +45,7 @@
           <Property Name="ExpenseName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="ExpenseDescription" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="Amount" Type="money" Nullable="false" />
+          <Property Name="ExpenseBillImageUrl" Type="varchar" MaxLength="250" Nullable="false" />
           <Property Name="CreationDate" Type="date" Nullable="false" />
           <Property Name="LastModifDate" Type="date" Nullable="false" />
         </EntityType>
@@ -69,7 +70,7 @@
           <Property Name="LastLoginDate" Type="date" Nullable="false" />
           <Property Name="Language" Type="varchar" MaxLength="10" Nullable="false" />
         </EntityType>
-        <Association Name="FK__Budget__UserID__690797E6">
+        <Association Name="FK__Budget__UserID__7C1A6C5A">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Budget" Type="Self.Budget" Multiplicity="*" />
           <ReferentialConstraint>
@@ -81,7 +82,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Category___Budge__6BE40491">
+        <Association Name="FK__Category___Budge__7EF6D905">
           <End Role="Budget" Type="Self.Budget" Multiplicity="0..1" />
           <End Role="Category_Global" Type="Self.Category_Global" Multiplicity="*" />
           <ReferentialConstraint>
@@ -93,7 +94,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Category___Categ__6EC0713C">
+        <Association Name="FK__Category___Categ__01D345B0">
           <End Role="Category_Global" Type="Self.Category_Global" Multiplicity="0..1" />
           <End Role="Category_Monthly" Type="Self.Category_Monthly" Multiplicity="*" />
           <ReferentialConstraint>
@@ -105,7 +106,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Expense__Categor__719CDDE7">
+        <Association Name="FK__Expense__Categor__04AFB25B">
           <End Role="Category_Monthly" Type="Self.Category_Monthly" Multiplicity="0..1" />
           <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
           <ReferentialConstraint>
@@ -117,7 +118,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__User_Sett__UserI__662B2B3B">
+        <Association Name="FK__User_Sett__UserI__793DFFAF">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="User_Setting" Type="Self.User_Setting" Multiplicity="*" />
           <ReferentialConstraint>
@@ -136,23 +137,23 @@
           <EntitySet Name="Expense" EntityType="Self.Expense" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User_Setting" EntityType="Self.User_Setting" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__Budget__UserID__690797E6" Association="Self.FK__Budget__UserID__690797E6">
+          <AssociationSet Name="FK__Budget__UserID__7C1A6C5A" Association="Self.FK__Budget__UserID__7C1A6C5A">
             <End Role="User" EntitySet="User" />
             <End Role="Budget" EntitySet="Budget" />
           </AssociationSet>
-          <AssociationSet Name="FK__Category___Budge__6BE40491" Association="Self.FK__Category___Budge__6BE40491">
+          <AssociationSet Name="FK__Category___Budge__7EF6D905" Association="Self.FK__Category___Budge__7EF6D905">
             <End Role="Budget" EntitySet="Budget" />
             <End Role="Category_Global" EntitySet="Category_Global" />
           </AssociationSet>
-          <AssociationSet Name="FK__Category___Categ__6EC0713C" Association="Self.FK__Category___Categ__6EC0713C">
+          <AssociationSet Name="FK__Category___Categ__01D345B0" Association="Self.FK__Category___Categ__01D345B0">
             <End Role="Category_Global" EntitySet="Category_Global" />
             <End Role="Category_Monthly" EntitySet="Category_Monthly" />
           </AssociationSet>
-          <AssociationSet Name="FK__Expense__Categor__719CDDE7" Association="Self.FK__Expense__Categor__719CDDE7">
+          <AssociationSet Name="FK__Expense__Categor__04AFB25B" Association="Self.FK__Expense__Categor__04AFB25B">
             <End Role="Category_Monthly" EntitySet="Category_Monthly" />
             <End Role="Expense" EntitySet="Expense" />
           </AssociationSet>
-          <AssociationSet Name="FK__User_Sett__UserI__662B2B3B" Association="Self.FK__User_Sett__UserI__662B2B3B">
+          <AssociationSet Name="FK__User_Sett__UserI__793DFFAF" Association="Self.FK__User_Sett__UserI__793DFFAF">
             <End Role="User" EntitySet="User" />
             <End Role="User_Setting" EntitySet="User_Setting" />
           </AssociationSet>
@@ -171,8 +172,8 @@
           <Property Name="BudgetName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="LastModifDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="User" Relationship="Self.FK__Budget__UserID__690797E6" FromRole="Budget" ToRole="User" />
-          <NavigationProperty Name="Category_Global" Relationship="Self.FK__Category___Budge__6BE40491" FromRole="Budget" ToRole="Category_Global" />
+          <NavigationProperty Name="User" Relationship="Self.FK__Budget__UserID__7C1A6C5A" FromRole="Budget" ToRole="User" />
+          <NavigationProperty Name="Category_Global" Relationship="Self.FK__Category___Budge__7EF6D905" FromRole="Budget" ToRole="Category_Global" />
         </EntityType>
         <EntityType Name="Category_Global">
           <Key>
@@ -184,8 +185,8 @@
           <Property Name="CategoryDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ColorTag" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Budget" Relationship="Self.FK__Category___Budge__6BE40491" FromRole="Category_Global" ToRole="Budget" />
-          <NavigationProperty Name="Category_Monthly" Relationship="Self.FK__Category___Categ__6EC0713C" FromRole="Category_Global" ToRole="Category_Monthly" />
+          <NavigationProperty Name="Budget" Relationship="Self.FK__Category___Budge__7EF6D905" FromRole="Category_Global" ToRole="Budget" />
+          <NavigationProperty Name="Category_Monthly" Relationship="Self.FK__Category___Categ__01D345B0" FromRole="Category_Global" ToRole="Category_Monthly" />
         </EntityType>
         <EntityType Name="Category_Monthly">
           <Key>
@@ -196,8 +197,8 @@
           <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="LastModifDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Category_Global" Relationship="Self.FK__Category___Categ__6EC0713C" FromRole="Category_Monthly" ToRole="Category_Global" />
-          <NavigationProperty Name="Expenses" Relationship="Self.FK__Expense__Categor__719CDDE7" FromRole="Category_Monthly" ToRole="Expense" />
+          <NavigationProperty Name="Category_Global" Relationship="Self.FK__Category___Categ__01D345B0" FromRole="Category_Monthly" ToRole="Category_Global" />
+          <NavigationProperty Name="Expenses" Relationship="Self.FK__Expense__Categor__04AFB25B" FromRole="Category_Monthly" ToRole="Expense" />
         </EntityType>
         <EntityType Name="Expense">
           <Key>
@@ -208,9 +209,10 @@
           <Property Name="ExpenseName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ExpenseDescription" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="ExpenseBillImageUrl" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="LastModifDate" Type="DateTime" Nullable="false" Precision="0" />
-          <NavigationProperty Name="Category_Monthly" Relationship="Self.FK__Expense__Categor__719CDDE7" FromRole="Expense" ToRole="Category_Monthly" />
+          <NavigationProperty Name="Category_Monthly" Relationship="Self.FK__Expense__Categor__04AFB25B" FromRole="Expense" ToRole="Category_Monthly" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -222,8 +224,8 @@
           <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UserPassword" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Budgets" Relationship="Self.FK__Budget__UserID__690797E6" FromRole="User" ToRole="Budget" />
-          <NavigationProperty Name="User_Setting" Relationship="Self.FK__User_Sett__UserI__662B2B3B" FromRole="User" ToRole="User_Setting" />
+          <NavigationProperty Name="Budgets" Relationship="Self.FK__Budget__UserID__7C1A6C5A" FromRole="User" ToRole="Budget" />
+          <NavigationProperty Name="User_Setting" Relationship="Self.FK__User_Sett__UserI__793DFFAF" FromRole="User" ToRole="User_Setting" />
         </EntityType>
         <EntityType Name="User_Setting">
           <Key>
@@ -234,9 +236,9 @@
           <Property Name="AccountCreationDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="LastLoginDate" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Language" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="User" Relationship="Self.FK__User_Sett__UserI__662B2B3B" FromRole="User_Setting" ToRole="User" />
+          <NavigationProperty Name="User" Relationship="Self.FK__User_Sett__UserI__793DFFAF" FromRole="User_Setting" ToRole="User" />
         </EntityType>
-        <Association Name="FK__Budget__UserID__690797E6">
+        <Association Name="FK__Budget__UserID__7C1A6C5A">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="Budget" Type="Self.Budget" Multiplicity="*" />
           <ReferentialConstraint>
@@ -248,7 +250,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Category___Budge__6BE40491">
+        <Association Name="FK__Category___Budge__7EF6D905">
           <End Role="Budget" Type="Self.Budget" Multiplicity="0..1" />
           <End Role="Category_Global" Type="Self.Category_Global" Multiplicity="*" />
           <ReferentialConstraint>
@@ -260,7 +262,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Category___Categ__6EC0713C">
+        <Association Name="FK__Category___Categ__01D345B0">
           <End Role="Category_Global" Type="Self.Category_Global" Multiplicity="0..1" />
           <End Role="Category_Monthly" Type="Self.Category_Monthly" Multiplicity="*" />
           <ReferentialConstraint>
@@ -272,7 +274,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__Expense__Categor__719CDDE7">
+        <Association Name="FK__Expense__Categor__04AFB25B">
           <End Role="Category_Monthly" Type="Self.Category_Monthly" Multiplicity="0..1" />
           <End Role="Expense" Type="Self.Expense" Multiplicity="*" />
           <ReferentialConstraint>
@@ -284,7 +286,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK__User_Sett__UserI__662B2B3B">
+        <Association Name="FK__User_Sett__UserI__793DFFAF">
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
           <End Role="User_Setting" Type="Self.User_Setting" Multiplicity="*" />
           <ReferentialConstraint>
@@ -296,30 +298,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="EZBudget_DBEntities1" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="EZBudget_DBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Budgets" EntityType="Self.Budget" />
           <EntitySet Name="Category_Global" EntityType="Self.Category_Global" />
           <EntitySet Name="Category_Monthly" EntityType="Self.Category_Monthly" />
           <EntitySet Name="Expenses" EntityType="Self.Expense" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <EntitySet Name="User_Setting" EntityType="Self.User_Setting" />
-          <AssociationSet Name="FK__Budget__UserID__690797E6" Association="Self.FK__Budget__UserID__690797E6">
+          <AssociationSet Name="FK__Budget__UserID__7C1A6C5A" Association="Self.FK__Budget__UserID__7C1A6C5A">
             <End Role="User" EntitySet="Users" />
             <End Role="Budget" EntitySet="Budgets" />
           </AssociationSet>
-          <AssociationSet Name="FK__Category___Budge__6BE40491" Association="Self.FK__Category___Budge__6BE40491">
+          <AssociationSet Name="FK__Category___Budge__7EF6D905" Association="Self.FK__Category___Budge__7EF6D905">
             <End Role="Budget" EntitySet="Budgets" />
             <End Role="Category_Global" EntitySet="Category_Global" />
           </AssociationSet>
-          <AssociationSet Name="FK__Category___Categ__6EC0713C" Association="Self.FK__Category___Categ__6EC0713C">
+          <AssociationSet Name="FK__Category___Categ__01D345B0" Association="Self.FK__Category___Categ__01D345B0">
             <End Role="Category_Global" EntitySet="Category_Global" />
             <End Role="Category_Monthly" EntitySet="Category_Monthly" />
           </AssociationSet>
-          <AssociationSet Name="FK__Expense__Categor__719CDDE7" Association="Self.FK__Expense__Categor__719CDDE7">
+          <AssociationSet Name="FK__Expense__Categor__04AFB25B" Association="Self.FK__Expense__Categor__04AFB25B">
             <End Role="Category_Monthly" EntitySet="Category_Monthly" />
             <End Role="Expense" EntitySet="Expenses" />
           </AssociationSet>
-          <AssociationSet Name="FK__User_Sett__UserI__662B2B3B" Association="Self.FK__User_Sett__UserI__662B2B3B">
+          <AssociationSet Name="FK__User_Sett__UserI__793DFFAF" Association="Self.FK__User_Sett__UserI__793DFFAF">
             <End Role="User" EntitySet="Users" />
             <End Role="User_Setting" EntitySet="User_Setting" />
           </AssociationSet>
@@ -329,7 +331,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="EZBudget_DBModelStoreContainer" CdmEntityContainer="EZBudget_DBEntities1">
+        <EntityContainerMapping StorageEntityContainer="EZBudget_DBModelStoreContainer" CdmEntityContainer="EZBudget_DBEntities">
           <EntitySetMapping Name="Budgets">
             <EntityTypeMapping TypeName="EZBudget_DBModel.Budget">
               <MappingFragment StoreEntitySet="Budget">
@@ -372,6 +374,7 @@
                 <ScalarProperty Name="ExpenseName" ColumnName="ExpenseName" />
                 <ScalarProperty Name="ExpenseDescription" ColumnName="ExpenseDescription" />
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ExpenseBillImageUrl" ColumnName="ExpenseBillImageUrl" />
                 <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
                 <ScalarProperty Name="LastModifDate" ColumnName="LastModifDate" />
               </MappingFragment>

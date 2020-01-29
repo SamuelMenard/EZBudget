@@ -13,7 +13,7 @@ namespace EZBudget.Queries
 {
     public static class EZBudgetDB
     {
-        private static EZBudget_DBEntities1 context { get; } = new EZBudget_DBEntities1();
+        private static EZBudget_DBEntities context { get; } = new EZBudget_DBEntities();
 
         public static async Task<ErrorCodesEnum> TryLogingIn(string username, string password)
         {
@@ -64,28 +64,41 @@ namespace EZBudget.Queries
 
         public static decimal GetTotalMonthlyBudgeted(int userID)
         {
-            // Sums the current month budget categories amounts
-            var totalBudgeted = (from user in context.Users
-                                where user.UserID == userID
-                                select user.Budgets.FirstOrDefault()
-                                           .Category_Global
-                                           .Where(category => category.IsActive == true)
-                                           .Sum(categoryGlobal => (categoryGlobal.Category_Monthly
-                                                                    .Where(categoryMonthly => categoryMonthly.CreationDate.Year == DateTime.Now.Year 
-                                                                                                && categoryMonthly.CreationDate.Month == DateTime.Now.Month)
-                                                                    .FirstOrDefault().Amount))).First();
-
-            return totalBudgeted;
+            try
+            {
+                // Sums the current month budget categories amounts
+                return (from user in context.Users
+                        where user.UserID == userID
+                        select user.Budgets.FirstOrDefault()
+                                   .Category_Global
+                                   .Where(category => category.IsActive == true)
+                                   .Sum(categoryGlobal => (categoryGlobal.Category_Monthly
+                                                            .Where(categoryMonthly => categoryMonthly.CreationDate.Year == DateTime.Now.Year
+                                                                                        && categoryMonthly.CreationDate.Month == DateTime.Now.Month)
+                                                            .FirstOrDefault().Amount))).First();
+            }
+            catch
+            {
+                return new decimal(0);
+            }
         }
 
         public static decimal GetCurrentMonthTotalExpenses(int userID)
         {
-            return (from user in context.Users
-                    where user.UserID == userID
-                    select user).FirstOrDefault().Budgets.FirstOrDefault()
+            try
+            {
+                return (from user in context.Users
+                        where user.UserID == userID
+                        select user).FirstOrDefault().Budgets.FirstOrDefault()
                     .Category_Global.Select(x => x.Category_Monthly).SelectMany(x => x)
                     .Select(x => x.Expenses).SelectMany(x => x)
                     .Where(x => x.CreationDate.Month == DateTime.Now.Month && x.CreationDate.Year == DateTime.Now.Year).Sum(x => x.Amount);
+            }
+            catch
+            {
+                return new decimal(0);
+            }
+            
         }
 
         public static ObservableCollection<Category> GetCurrentMonthBudgetCategories(int userID)
@@ -118,7 +131,7 @@ namespace EZBudget.Queries
                             Description = globalCategory.CategoryDescription,
                             ColorTag = globalCategory.ColorTag,
                             Amount = Math.Round(currentMonthCategory.Amount, 2),
-                            Expenses = new ObservableCollection<Expense>()
+                            Expenses = new List<Expense>()
                         });
                     }
                 }
@@ -197,6 +210,27 @@ namespace EZBudget.Queries
                 }
 
                 // Apply changes
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool DeleteExpense(int expenseID)
+        {
+            try
+            {
+                var expenseToBeDeleted = (from expense in context.Expenses
+                                          where expense.ExpenseID == expenseID
+                                          select expense).FirstOrDefault();
+
+                if (expenseToBeDeleted == null)
+                    return false;
+
+                context.Expenses.Remove(expenseToBeDeleted);
                 context.SaveChanges();
                 return true;
             }
@@ -320,6 +354,41 @@ namespace EZBudget.Queries
             return lstDisabledCategories;
         }
 
+        public static ObservableCollection<Category> GetCurrentMonthCategoriesWithExpenses(int userID)
+        {
+            ObservableCollection<Category> categories = new ObservableCollection<Category>();
+
+            var activeGlobalCategories = (from user in context.Users
+                                    where user.UserID == userID
+                                    select user).FirstOrDefault().Budgets.First()
+                       .Category_Global.Where(x => x.IsActive);
+
+            foreach(var globalCategory in activeGlobalCategories)
+            {
+                var monthlyCategory = globalCategory.Category_Monthly
+                    .FirstOrDefault(x => x.CreationDate.Month == DateTime.Now.Month && x.CreationDate.Year == DateTime.Now.Year);
+
+                if (monthlyCategory == null)
+                    continue;
+
+                var expenses = monthlyCategory.Expenses.ToList();
+                expenses.ForEach(x => x.Amount = Math.Round(x.Amount, 2));
+
+                categories.Add(new Category()
+                {
+                    GlobalID = globalCategory.CategoryGlobalID,
+                    ID = monthlyCategory.CategoryMonthlyID,
+                    Name = globalCategory.CategoryName,
+                    Description = globalCategory.CategoryDescription,
+                    Amount = Math.Round(monthlyCategory.Amount, 2),
+                    ColorTag = globalCategory.ColorTag,
+                    Expenses = expenses
+                });
+            }
+
+            return categories;
+        }
+
         public static bool RestoreCategory(int globalCategoryID)
         {
             try
@@ -361,13 +430,27 @@ namespace EZBudget.Queries
                 {
                     var lastMonthlyCategory = (globalCategory.Category_Monthly
                                                 .OrderByDescending(monthlyCategory => monthlyCategory.CreationDate).FirstOrDefault());
-                    globalCategory.Category_Monthly.Add(new Category_Monthly()
+
+                    if (lastMonthlyCategory != null)
                     {
-                        Amount = lastMonthlyCategory.Amount,
-                        CreationDate = DateTime.Now,
-                        LastModifDate = DateTime.Now,
-                        Expenses = new HashSet<Expense>()
-                    });
+                        globalCategory.Category_Monthly.Add(new Category_Monthly()
+                        {
+                            Amount = lastMonthlyCategory.Amount,
+                            CreationDate = DateTime.Now,
+                            LastModifDate = DateTime.Now,
+                            Expenses = new HashSet<Expense>()
+                        });
+                    }
+                    else
+                    {
+                        globalCategory.Category_Monthly.Add(new Category_Monthly()
+                        {
+                            Amount = new decimal(0),
+                            CreationDate = DateTime.Now,
+                            LastModifDate = DateTime.Now,
+                            Expenses = new HashSet<Expense>()
+                        });
+                    }
                 }
 
                 // save changes

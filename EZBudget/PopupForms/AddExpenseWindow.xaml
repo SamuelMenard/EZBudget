@@ -6,127 +6,223 @@
         xmlns:local="clr-namespace:EZBudget.PopupForms"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="" Height="700" Width="550"
+        Title="" Height="700" Width="1000"
         Icon="/Images/Logo/marshmallow.png"
         ResizeMode="NoResize">
-    <Grid>
-        <Border Background="{StaticResource BackgroundLightGrayBrush}"
-                Padding="8">
 
+    <DockPanel>
+        <!-- Title bar 
+        <Border Background="{StaticResource BackgroundDeepDarkGrayBrush}"
+                Padding="5" CornerRadius="10 10 0 0"
+                DockPanel.Dock="Top" Height="45">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" HorizontalAlignment="Left"
+                    Source="C:\Users\Samuel Ménard\repos\EZBudget\EZBudget\Images\Logo\marshmallow.png"/>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button x:Name="btnCloseWindow" Style="{StaticResource SmallIconDeleteButton}" Click="btnCloseWindow_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>-->
+
+        <Border Background="{StaticResource BackgroundLightGrayBrush}"
+                Padding="8" DockPanel.Dock="Bottom" CornerRadius="0 0 10 10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
-                <!-- Add category form -->
-                <Border Grid.Column="0" 
-                        Background="{StaticResource Bubbles_BackgroundBrush}"
-                        CornerRadius="5"
-                        Margin="0 0 5 0"
-                        Padding="20 0 20 0">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="100"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                <Grid Grid.Column="0" Margin="0 0 5 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
 
-                        <!-- Title -->
-                        <TextBlock Text="Add an expense" Grid.Row="0"
-                                   Style="{StaticResource TextBlockBubbleTitle}"
-                                   VerticalAlignment="Center"
-                                   HorizontalAlignment="Center"/>
+                    <!-- Add category form -->
+                    <Border Grid.Column="0" 
+                            Background="{StaticResource Bubbles_BackgroundBrush}"
+                            CornerRadius="5"
+                            Padding="20 0 20 0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                        <StackPanel Grid.Row="1">
-                            <!-- Expense name -->
-                            <StackPanel>
-                                <TextBlock Margin="0 30 0 0" Text="Name" FontSize="{StaticResource FontSizeSmall}"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="50"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="tbName" Style="{StaticResource TextBoxAddCategory}"
-                                        Text="{Binding ExpenseName}" Tag="Enter the expense name"/>
-                                    <TextBlock Grid.Column="1" Text="&#xf057;" Style="{StaticResource TextBlockSmallIcon}"
-                                               Foreground="{StaticResource ForegroundRedBrush}"
-                                               Visibility="{Binding InvalidExpenseName_Visibility}"/>
-                                </Grid>
-                            </StackPanel>
+                            <!-- Title -->
+                            <TextBlock Text="Add an expense" Grid.Row="0"
+                                       Style="{StaticResource TextBlockBubbleTitle}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
 
-                            <!-- Expense description -->
-                            <StackPanel>
-                                <TextBlock Margin="0 30 0 0" Text="Description" FontSize="{StaticResource FontSizeSmall}"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="50"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox Grid.Column="0" x:Name="tbDescription" Style="{StaticResource TextBoxAddCategory}"
-                                        Text="{Binding ExpenseDescription}" Tag="Enter the expense description"
-                                         TextWrapping="Wrap"
-                                         AcceptsReturn="True"/>
-                                    <TextBlock Grid.Column="1" Text="&#xf057;" Style="{StaticResource TextBlockSmallIcon}"
-                                               Foreground="{StaticResource ForegroundRedBrush}"
-                                               Visibility="{Binding InvalidExpenseDescription_Visibility}"/>
-                                </Grid>
-                            </StackPanel>
-
-                            <!-- Expense amount -->
-                            <StackPanel>
-                                <TextBlock Margin="0 30 0 0" Text="Amount" FontSize="{StaticResource FontSizeSmall}"/>
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBox x:Name="tbAmount" Style="{StaticResource TextBoxAddCategory}"
-                                        Text="{Binding ExpenseAmount}" Tag="Enter the expense amount"/>
-                                    <TextBlock Text="{StaticResource Currency}"
-                                               Style="{StaticResource TextBlockCategory}"
-                                               Padding="10"/>
-                                    <TextBlock Text="&#xf057;" Style="{StaticResource TextBlockSmallIcon}"
-                                               Foreground="{StaticResource ForegroundRedBrush}"
-                                               Visibility="{Binding InvalidExpenseAmount_Visibility}"/>
+                            <StackPanel Grid.Row="1">
+                                <!-- Expense name -->
+                                <StackPanel>
+                                    <TextBlock Margin="0 30 0 0" Text="Name" FontSize="{StaticResource FontSizeSmall}"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="50"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="tbName" Style="{StaticResource TextBoxAddCategory}"
+                                            Text="{Binding ExpenseName}" Tag="Enter the expense name"/>
+                                        <TextBlock Grid.Column="1" Text="&#xf057;" Style="{StaticResource TextBlockSmallIcon}"
+                                                   Foreground="{StaticResource ForegroundRedBrush}"
+                                                   Visibility="{Binding InvalidExpenseName_Visibility}"/>
+                                    </Grid>
                                 </StackPanel>
+
+                                <!-- Expense description -->
+                                <StackPanel>
+                                    <TextBlock Margin="0 30 0 0" Text="Description" FontSize="{StaticResource FontSizeSmall}"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="50"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" x:Name="tbDescription" Style="{StaticResource TextBoxAddCategory}"
+                                            Text="{Binding ExpenseDescription}" Tag="Enter the expense description"
+                                             TextWrapping="Wrap"
+                                             AcceptsReturn="True"/>
+                                        <TextBlock Grid.Column="1" Text="&#xf057;" Style="{StaticResource TextBlockSmallIcon}"
+                                                   Foreground="{StaticResource ForegroundRedBrush}"
+                                                   Visibility="{Binding InvalidExpenseDescription_Visibility}"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <!-- Expense amount -->
+                                <StackPanel>
+                                    <TextBlock Margin="0 30 0 0" Text="Amount" FontSize="{StaticResource FontSizeSmall}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="tbAmount" Style="{StaticResource TextBoxAddCategory}"
+                                            Text="{Binding ExpenseAmount}" Tag="Enter the expense amount"/>
+                                        <TextBlock Text="{StaticResource Currency}"
+                                                   Style="{StaticResource TextBlockCategory}"
+                                                   Padding="10"/>
+                                        <TextBlock Text="&#xf057;" Style="{StaticResource TextBlockSmallIcon}"
+                                                   Foreground="{StaticResource ForegroundRedBrush}"
+                                                   Visibility="{Binding InvalidExpenseAmount_Visibility}"/>
+                                    </StackPanel>
+                                </StackPanel>
+
+                                <!-- Expense category -->
+                                <StackPanel>
+                                    <TextBlock Margin="0 30 0 0" Text="Category" FontSize="{StaticResource FontSizeSmall}"/>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="50"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <ComboBox x:Name="cmbCategories" Grid.Column="0"
+                                                  ItemsSource="{Binding Categories}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Border Padding="5">
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <Rectangle Fill="{Binding ColorTag}" Width="16" Height="16" Margin="0,2,5,2" />
+                                                            <TextBlock Text="{Binding Name}" Style="{StaticResource TextBlockCategory}"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+
+                                        <TextBlock Grid.Column="1" Text="&#xf057;" Style="{StaticResource TextBlockSmallIcon}"
+                                                   Foreground="{StaticResource ForegroundRedBrush}"
+                                                   Visibility="{Binding InvalidExpenseCategory_Visibility}"/>
+                                    </Grid>
+                                </StackPanel>
+
+                                <!-- Create button -->
+                                <Button x:Name="btnCreate" Content="Add expense" Margin="0 30 0 0"
+                                        Style="{StaticResource CreateCategoryButton}"
+                                        Width="300" Click="btnCreate_Click"/>
+
                             </StackPanel>
 
-                            <!-- Expense category -->
-                            <StackPanel>
-                                <TextBlock Margin="0 30 0 0" Text="Category" FontSize="{StaticResource FontSizeSmall}"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="50"/>
-                                    </Grid.ColumnDefinitions>
+                        </Grid>
+                    </Border>
 
-                                    <ComboBox x:Name="cmbCategories" Grid.Column="0"
-                                              ItemsSource="{Binding Categories}">
-                                        <ComboBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <Border Padding="5">
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Rectangle Fill="{Binding ColorTag}" Width="16" Height="16" Margin="0,2,5,2" />
-                                                        <TextBlock Text="{Binding Name}" Style="{StaticResource TextBlockCategory}"/>
-                                                    </StackPanel>
-                                                </Border>
-                                            </DataTemplate>
-                                        </ComboBox.ItemTemplate>
-                                    </ComboBox>
+                </Grid>
 
-                                    <TextBlock Grid.Column="1" Text="&#xf057;" Style="{StaticResource TextBlockSmallIcon}"
-                                               Foreground="{StaticResource ForegroundRedBrush}"
-                                               Visibility="{Binding InvalidExpenseCategory_Visibility}"/>
-                                </Grid>
+                <Grid Grid.Column="1" Margin="5 0 0 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Add category form -->
+                    <Border Grid.Column="0" 
+                            Background="{StaticResource Bubbles_BackgroundBrush}"
+                            CornerRadius="5"
+                            Padding="20 0 20 20">
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="100"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Title -->
+                            <TextBlock Text="Add a receipt" Grid.Row="0"
+                                       Style="{StaticResource TextBlockBubbleTitle}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="Center"/>
+
+                            <StackPanel Grid.Row="1" Margin="0 10 0 0">
+                                <TextBlock Text="Receipt URL" FontSize="{StaticResource FontSizeSmall}"/>
+                                <Border BorderThickness="0 0 0 1" BorderBrush="{StaticResource BackgroundLightPurpleBrush}">
+                                    <TextBlock Text="{Binding ReceiptUrl}" Margin="0 5 0 0" TextWrapping="Wrap"/>
+                                </Border>
                             </StackPanel>
 
                             <!-- Create button -->
-                            <Button x:Name="btnCreate" Content="Add expense" Margin="0 30 0 0"
-                                    Style="{StaticResource CreateCategoryButton}"
-                                    Width="300" Click="btnCreate_Click"/>
+                            <Button x:Name="btnBrowseFiles" Content="Browse Files"
+                                        Style="{StaticResource CreateCategoryButton}"
+                                        Width="200" Height="35"
+                                        Grid.Row="2" HorizontalAlignment="Left" Click="btnBrowseFiles_Click"/>
 
-                        </StackPanel>
 
-                    </Grid>
-                </Border>
+                            <Grid Grid.Row="3" Margin="0 10 0 0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="27"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
+                                <Border Background="{StaticResource BackgroundDeepDarkGrayBrush}"
+                                    Padding="5" CornerRadius="10 10 0 0" Grid.Row="0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="Image Preview" Foreground="White" 
+                                               FontSize="{StaticResource FontSizeSmall}"
+                                               Grid.Column="0" HorizontalAlignment="Left"/>
+
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                                            <Button x:Name="btnFullScreen" Style="{StaticResource SmallIconFullScreenButton}" Click="btnFullScreen_Click"/>
+                                            <Button x:Name="btnTrash" Style="{StaticResource SmallIconTrashButton}" Click="btnTrash_Click"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <Border Background="{StaticResource BackgroundMidDarkGrayBrush}"
+                                    Padding="15" CornerRadius="0 0 5 5" Grid.Row="1">
+                                    <Image Source="{Binding ReceiptUrlPreview}" />
+                                </Border>
+                            </Grid>
+
+                        </Grid>
+                    </Border>
+
+                </Grid>
             </Grid>
-
         </Border>
-    </Grid>
+    </DockPanel>
 </Window>

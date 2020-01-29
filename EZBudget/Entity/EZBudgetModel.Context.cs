@@ -13,10 +13,10 @@ namespace EZBudget.Entity
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class EZBudget_DBEntities1 : DbContext
+    public partial class EZBudget_DBEntities : DbContext
     {
-        public EZBudget_DBEntities1()
-            : base("name=EZBudget_DBEntities1")
+        public EZBudget_DBEntities()
+            : base("name=EZBudget_DBEntities")
         {
         }
     

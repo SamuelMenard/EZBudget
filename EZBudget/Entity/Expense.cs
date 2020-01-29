@@ -19,6 +19,7 @@ namespace EZBudget.Entity
         public string ExpenseName { get; set; }
         public string ExpenseDescription { get; set; }
         public decimal Amount { get; set; }
+        public string ExpenseBillImageUrl { get; set; }
         public System.DateTime CreationDate { get; set; }
         public System.DateTime LastModifDate { get; set; }
     

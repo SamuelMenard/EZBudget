@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="e05916ef515a45b784f32a551ee59aa1" Name="Diagram1">
+        <EntityTypeShape EntityType="EZBudget_DBModel.Budget" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EZBudget_DBModel.Category_Global" Width="1.5" PointX="5.25" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EZBudget_DBModel.Category_Monthly" Width="1.5" PointX="7.5" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="EZBudget_DBModel.Expense" Width="1.5" PointX="9.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="EZBudget_DBModel.User" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EZBudget_DBModel.User_Setting" Width="1.5" PointX="3" PointY="4.625" IsExpanded="true" />
+        <AssociationConnector Association="EZBudget_DBModel.FK__Budget__UserID__7C1A6C5A" ManuallyRouted="false" />
+        <AssociationConnector Association="EZBudget_DBModel.FK__Category___Budge__7EF6D905" ManuallyRouted="false" />
+        <AssociationConnector Association="EZBudget_DBModel.FK__Category___Categ__01D345B0" ManuallyRouted="false" />
+        <AssociationConnector Association="EZBudget_DBModel.FK__Expense__Categor__04AFB25B" ManuallyRouted="false" />
+        <AssociationConnector Association="EZBudget_DBModel.FK__User_Sett__UserI__793DFFAF" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

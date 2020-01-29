@@ -8,12 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace EZBudget.PopupForms.ViewModel
 {
     public class AddExpenseViewModel : BaseViewModel
     {
         private int LogedInUserId { get; set; }
+        private string NoImageURL { get; } = @"C:\Users\Samuel Ménard\repos\EZBudget\EZBudget\Images\Others\no_image.png";
+
+        public string ReceiptUrlPreview { get; set; }
+        public string ReceiptUrl { get; set; }
+
 
         // Expense name
         public string ExpenseName { get; set; }
@@ -38,6 +44,12 @@ namespace EZBudget.PopupForms.ViewModel
         public AddExpenseViewModel(int logedInUserId)
         {
             this.LogedInUserId = logedInUserId;
+            this.ReceiptUrlPreview = NoImageURL;
+        }
+
+        public void ResetImagePreview()
+        {
+            this.ReceiptUrlPreview = NoImageURL;
         }
     }
 }

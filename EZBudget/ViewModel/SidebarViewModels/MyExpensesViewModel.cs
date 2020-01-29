@@ -62,32 +62,15 @@ namespace EZBudget.ViewModel.SidebarViewModels
 
         private void DeleteExpense_Click(Object parameter)
         {
-            int categoryID = (int)parameter;
-            EZBudgetDB.DeleteCategory(categoryID);
-
-            // TO BE CHANGED
+            int expenseID = (int)parameter;
+            EZBudgetDB.DeleteExpense(expenseID);
             PopulateViewModel();
         }
 
         private void EditExpense_Click(Object parameter)
         {
-            int categoryID = (int)parameter;
-            EditCategoryWindow form = new EditCategoryWindow(categoryID);
-            form.ShowDialog();
-
-            if (form.MViewModel.IsCategoryValid)
-            {
-                form.editingCategoryGlobal.CategoryName = form.MViewModel.CategoryName;
-                form.editingCategoryGlobal.CategoryDescription = form.MViewModel.CategoryDescription;
-                form.editingCategoryGlobal.ColorTag = form.MViewModel.CategoryColorTag;
-                form.editingCategoryMonthly.Amount = Math.Round(decimal.Parse(form.MViewModel.CategoryAmount), 2);
-                form.editingCategoryMonthly.LastModifDate = DateTime.Now;
-
-                EZBudgetDB.SaveChanges();
-
-                // TO BE CHANGED
-                PopulateViewModel();
-            }
+            int expenseID = (int)parameter;
+            Console.WriteLine($"Edit: {expenseID}");
         }
 
         private void AddExpense_Click()
@@ -118,7 +101,7 @@ namespace EZBudget.ViewModel.SidebarViewModels
             LogedInUserID = EZBudgetDB.GetUserID(LogedInUsername);
 
             // Get and set the "Categories"
-            Categories = EZBudgetDB.GetCurrentMonthBudgetCategories(LogedInUserID);
+            Categories = EZBudgetDB.GetCurrentMonthCategoriesWithExpenses(LogedInUserID);
 
             // Get and set the "Past months"
             PastMonths = EZBudgetDB.GetPastMonthsExpenses(LogedInUserID);
