@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -278,7 +279,7 @@ namespace EZBudget.Queries
             }
         }
 
-        public static bool CreateExpense(string expenseName, string expenseDescription, decimal expenseAmount, int catID)
+        public static bool CreateExpense(string expenseName, string expenseDescription, decimal expenseAmount, int catID, string receiptURL)
         {
             try
             {
@@ -290,7 +291,8 @@ namespace EZBudget.Queries
                     Amount = expenseAmount,
                     CreationDate = DateTime.Now,
                     LastModifDate = DateTime.Now,
-                    CategoryMonthlyID = catID
+                    CategoryMonthlyID = catID,
+                    ExpenseBillImageUrl = CopyImage(receiptURL)
                 });
 
                 context.SaveChanges();
@@ -328,6 +330,33 @@ namespace EZBudget.Queries
             catch
             {
                 return null;
+            }
+        }
+
+        public static Expense GetExpense(int expenseID)
+        {
+            return (from expense in context.Expenses
+                    where expense.ExpenseID == expenseID
+                    select expense).FirstOrDefault();
+        }
+
+        public static bool EditExpense(Expense expense, string name, string description, decimal amount, string url, int catID)
+        {
+            try
+            {
+                expense.ExpenseName = name;
+                expense.ExpenseDescription = description;
+                expense.Amount = amount;
+                expense.ExpenseBillImageUrl = CopyImage(url);
+                expense.CategoryMonthlyID = catID;
+                expense.LastModifDate = DateTime.Now;
+
+                context.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -461,6 +490,31 @@ namespace EZBudget.Queries
             {
                 return false;
             }
+        }
+
+        private static string CopyImage(string imageURL)
+        {
+            var targetPath = @"C:\Users\Samuel Ménard\repos\EZBudget\EZBudget\Images\Bills";
+
+            try
+            {
+                var fileName = Path.GetFileName(imageURL);
+
+                if (fileName == "")
+                    return "";
+
+                fileName = $"{DateTime.Now.Ticks.ToString()}_{fileName}";
+
+                string destFile = Path.Combine(targetPath, fileName);
+                Directory.CreateDirectory(targetPath);
+                File.Copy(imageURL, destFile, true);
+                return destFile;
+            }
+            catch
+            {
+                return "";
+            }
+            
         }
 
         public static bool SaveChanges()

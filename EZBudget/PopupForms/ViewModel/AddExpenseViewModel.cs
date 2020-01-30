@@ -18,7 +18,7 @@ namespace EZBudget.PopupForms.ViewModel
         private string NoImageURL { get; } = @"C:\Users\Samuel Ménard\repos\EZBudget\EZBudget\Images\Others\no_image.png";
 
         public string ReceiptUrlPreview { get; set; }
-        public string ReceiptUrl { get; set; }
+        public string ReceiptUrl { get; set; } = "";
 
 
         // Expense name

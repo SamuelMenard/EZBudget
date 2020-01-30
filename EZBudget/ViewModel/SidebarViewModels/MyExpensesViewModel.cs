@@ -1,4 +1,5 @@
 ﻿using EZBudget.DataModels;
+using EZBudget.Entity;
 using EZBudget.PopupForms;
 using EZBudget.Queries;
 using EZBudget.ViewModel.Base;
@@ -70,7 +71,36 @@ namespace EZBudget.ViewModel.SidebarViewModels
         private void EditExpense_Click(Object parameter)
         {
             int expenseID = (int)parameter;
-            Console.WriteLine($"Edit: {expenseID}");
+
+            // Get expense
+            var expense = EZBudgetDB.GetExpense(expenseID);
+
+            if (expense == null)
+                return;
+
+            // Clone expense
+            var clonedExpense = new Expense()
+            {
+                ExpenseName = expense.ExpenseName,
+                ExpenseDescription = expense.ExpenseDescription,
+                ExpenseBillImageUrl = expense.ExpenseBillImageUrl,
+                Amount = expense.Amount
+            };
+
+            // Open temporary edit expense form
+            EditExpenseWindow form = new EditExpenseWindow(LogedInUserID, clonedExpense);
+            form.ShowDialog();
+
+            // If expense is valid, edit and push changes to DB
+            if (form._mViewModel.IsExpenseValid)
+            {
+                EZBudgetDB.EditExpense(expense, form._mViewModel.ExpenseName, form._mViewModel.ExpenseDescription,
+                    Math.Round(decimal.Parse(form._mViewModel.ExpenseAmount), 2), form._mViewModel.ReceiptUrl, 
+                    form._mViewModel.selectedCategoryMonthlyId);
+
+                // TO BE CHANGED
+                PopulateViewModel();
+            }
         }
 
         private void AddExpense_Click()
@@ -84,7 +114,8 @@ namespace EZBudget.ViewModel.SidebarViewModels
             {
                 // Create expense
                 EZBudgetDB.CreateExpense(form._mViewModel.ExpenseName, form._mViewModel.ExpenseDescription,
-                    Math.Round(decimal.Parse(form._mViewModel.ExpenseAmount), 2), form._mViewModel.selectedCategoryMonthlyId);
+                    Math.Round(decimal.Parse(form._mViewModel.ExpenseAmount), 2), form._mViewModel.selectedCategoryMonthlyId, 
+                    form._mViewModel.ReceiptUrl);
 
                 // TO BE CHANGED
                 PopulateViewModel();

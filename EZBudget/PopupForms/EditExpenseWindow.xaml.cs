@@ -1,4 +1,5 @@
 ﻿using EZBudget.DataModels;
+using EZBudget.Entity;
 using EZBudget.PopupForms.ViewModel;
 using Microsoft.Win32;
 using System;
@@ -18,20 +19,59 @@ using System.Windows.Shapes;
 namespace EZBudget.PopupForms
 {
     /// <summary>
-    /// Interaction logic for AddExpenseWindow.xaml
+    /// Interaction logic for EditExpenseWindow.xaml
     /// </summary>
-    public partial class AddExpenseWindow : Window
+    public partial class EditExpenseWindow : Window
     {
+
         public AddExpenseViewModel _mViewModel { get; set; }
 
-        public AddExpenseWindow(int logedInUserId)
+        public EditExpenseWindow(int logedInUserId, Expense expense)
         {
             InitializeComponent();
             _mViewModel = new AddExpenseViewModel(logedInUserId);
             this.DataContext = _mViewModel;
+
+            // set view model datas
+            _mViewModel.ExpenseName = expense.ExpenseName;
+            _mViewModel.ExpenseDescription = expense.ExpenseDescription;
+            _mViewModel.ExpenseAmount = expense.Amount.ToString();
+            _mViewModel.ReceiptUrl = expense.ExpenseBillImageUrl;
+
+            if (expense.ExpenseBillImageUrl != "")
+                _mViewModel.ReceiptUrlPreview = expense.ExpenseBillImageUrl;
         }
 
-        private void btnCreate_Click(object sender, RoutedEventArgs e)
+
+        private void btnBrowseFiles_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                _mViewModel.ReceiptUrl = openFileDialog.FileName;
+                _mViewModel.ReceiptUrlPreview = openFileDialog.FileName;
+            }
+        }
+
+        private void btnTrash_Click(object sender, RoutedEventArgs e)
+        {
+            _mViewModel.ReceiptUrl = "";
+            _mViewModel.ResetImagePreview();
+        }
+
+        private void btnFullScreen_Click(object sender, RoutedEventArgs e)
+        {
+            if (_mViewModel.ReceiptUrl != null && _mViewModel.ReceiptUrl != "")
+                new ImageFullScreenViewerWindow(_mViewModel.ReceiptUrl).ShowDialog();
+        }
+
+        private void btnCloseWindow_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             bool isValid = true;
 
@@ -103,35 +143,6 @@ namespace EZBudget.PopupForms
                 _mViewModel.IsExpenseValid = true;
                 this.Close();
             }
-        }
-
-        private void btnBrowseFiles_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png) | *.jpg; *.jpeg; *.png";
-
-            if (openFileDialog.ShowDialog() == true)
-            {
-                _mViewModel.ReceiptUrl = openFileDialog.FileName;
-                _mViewModel.ReceiptUrlPreview = openFileDialog.FileName;
-            }
-        }
-
-        private void btnTrash_Click(object sender, RoutedEventArgs e)
-        {
-            _mViewModel.ReceiptUrl = "";
-            _mViewModel.ResetImagePreview();
-        }
-
-        private void btnFullScreen_Click(object sender, RoutedEventArgs e)
-        {
-            if (_mViewModel.ReceiptUrl != null && _mViewModel.ReceiptUrl != "")
-                new ImageFullScreenViewerWindow(_mViewModel.ReceiptUrl).ShowDialog();
-        }
-
-        private void btnCloseWindow_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }

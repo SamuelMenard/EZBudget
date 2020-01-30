@@ -145,6 +145,9 @@
     <Compile Include="PopupForms\EditCategoryWindow.xaml.cs">
       <DependentUpon>EditCategoryWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopupForms\EditExpenseWindow.xaml.cs">
+      <DependentUpon>EditExpenseWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PopupForms\ImageFullScreenViewerWindow.xaml.cs">
       <DependentUpon>ImageFullScreenViewerWindow.xaml</DependentUpon>
     </Compile>
@@ -203,6 +206,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PopupForms\EditCategoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopupForms\EditExpenseWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
