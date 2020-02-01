@@ -217,6 +217,15 @@
         <Setter Property="Foreground" Value="{StaticResource ForegroundDarkGrayBrush}"/>
     </Style>
 
+    <!-- TextBlock grid header style -->
+    <Style x:Key="TextBlockGridHeader" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource BaseTextBlockStyle}">
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundDarkGrayBrush}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+    </Style>
+
     <!-- TextBox add category style (Name) -->
     <Style x:Key="TextBoxAddCategory" TargetType="{x:Type TextBox}" BasedOn="{StaticResource BaseStyle}">
         <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}"/>

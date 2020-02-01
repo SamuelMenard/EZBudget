@@ -231,6 +231,9 @@ namespace EZBudget.Queries
                 if (expenseToBeDeleted == null)
                     return false;
 
+                if (expenseToBeDeleted.ExpenseBillImageUrl != "")
+                    DeleteImage(expenseToBeDeleted.ExpenseBillImageUrl);
+
                 context.Expenses.Remove(expenseToBeDeleted);
                 context.SaveChanges();
                 return true;
@@ -515,6 +518,21 @@ namespace EZBudget.Queries
                 return "";
             }
             
+        }
+
+        private static bool DeleteImage(string imageURL) {
+            try
+            {
+                if (!File.Exists(imageURL))
+                    return false;
+
+                File.Delete(imageURL);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public static bool SaveChanges()

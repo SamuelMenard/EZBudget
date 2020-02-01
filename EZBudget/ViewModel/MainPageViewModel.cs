@@ -50,7 +50,7 @@ namespace EZBudget.ViewModel
             CurrentDate = DateTime.Now;
 
             // Set default view (Dashboard)
-            CurrentViewModel = new DashboardViewModel();
+            CurrentViewModel = new DashboardViewModel(LogedInUsername);
 
             DashboardClick = new RelayCommand(() => Dashboard_Click());
             MyBudgetClick = new RelayCommand(() => MyBudget_Click());
@@ -73,7 +73,7 @@ namespace EZBudget.ViewModel
 
         private void Dashboard_Click()
         {
-            CurrentViewModel = new DashboardViewModel();
+            CurrentViewModel = new DashboardViewModel(LogedInUsername);
         }
 
         private void MyBudget_Click()

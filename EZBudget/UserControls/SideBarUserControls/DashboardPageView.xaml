@@ -4,9 +4,220 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EZBudget.UserControls.SideBarUserControls"
+             xmlns:converters="clr-namespace:EZBudget.ValueConverter"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="{StaticResource BackgroundLightBrush}">
-        <TextBlock Text="DASHBOARD VIEW" FontSize="{StaticResource FontSizeLarge}"/>
-    </Grid>
+             d:DesignHeight="900" d:DesignWidth="1000">
+    <Border Background="{StaticResource BackgroundLightBrush}" Padding="8">
+        <DockPanel>
+
+            <!-- Top part of screen -->
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Total current month expenses -->
+                <Border Grid.Column="0"
+                        Background="{StaticResource Bubbles_BackgroundBrush}"
+                        CornerRadius="5"
+                        Padding="5 30 5 30"
+                        Margin="0 0 5 0">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Fire icon -->
+                        <TextBlock Text="&#xf06d;" Foreground="{StaticResource Fire_ForegroundBrush}"
+                                   Style="{StaticResource TextBlockBigIcon}"
+                                   Grid.Column="0"
+                                   Grid.RowSpan="2"/>
+
+                        <!-- Current total budgeted -->
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Grid.Column="1" Grid.Row="0">
+                            <TextBlock Text="{Binding TotalExpenses}" 
+                                   Style="{StaticResource TextBlockBigMoney}"/>
+                            <TextBlock Text="{StaticResource Currency}" 
+                                   Style="{StaticResource TextBlockBigMoney}"/>
+                        </StackPanel>
+
+                        <!-- Small description -->
+                        <TextBlock Text="Current month expenses" Style="{StaticResource TextBlockBigMoneyDescription}"
+                                   Grid.Column="1" Grid.Row="1" TextWrapping="Wrap"/>
+
+                    </Grid>
+
+                </Border>
+
+                <!-- Total current month budgeted -->
+                <Border Grid.Column="1"
+                        Background="{StaticResource Bubbles_BackgroundBrush}"
+                        CornerRadius="5"
+                        Padding="5 30 5 30"
+                        Margin="5 0 0 0">
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Money icon -->
+                        <TextBlock Text="&#xf51e;" Foreground="{StaticResource Coin_ForegroundBrush}"
+                                   Style="{StaticResource TextBlockBigIcon}"
+                                   Grid.Column="0"
+                                   Grid.RowSpan="2"/>
+
+                        <!-- Current total budgeted -->
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center" VerticalAlignment="Center"
+                                    Grid.Column="1" Grid.Row="0">
+                            <TextBlock Text="{Binding TotalBudgeted}" 
+                                   Style="{StaticResource TextBlockBigMoney}"/>
+                            <TextBlock Text="{StaticResource Currency}" 
+                                   Style="{StaticResource TextBlockBigMoney}"/>
+                        </StackPanel>
+
+                        <!-- Small description -->
+                        <TextBlock Text="Total budgeted" Style="{StaticResource TextBlockBigMoneyDescription}"
+                                   Grid.Column="1" Grid.Row="1"/>
+
+                    </Grid>
+
+                </Border>
+
+            </Grid>
+
+            <!-- Center of the screen -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="700" />
+                    <ColumnDefinition Width="300"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Budget categories -->
+                <Border Grid.Column="0" Margin="0 8 8 0"
+                        Background="{StaticResource Bubbles_BackgroundBrush}"
+                        CornerRadius="5"
+                        Padding="15">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Title -->
+                        <TextBlock Text="My budget (Current Month)" Style="{StaticResource TextBlockBubbleTitle}"
+                                   Grid.Row="0"/>
+                        
+                        <!-- Monthly report grid -->
+                        <Grid Grid.Row="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <!-- Grid header -->
+                            <TextBlock Text="Category" Grid.Row="0" Grid.Column="0"
+                                       Style="{StaticResource TextBlockGridHeader}"/>
+                            <TextBlock Text="Budget" Grid.Row="0" Grid.Column="1"
+                                       Style="{StaticResource TextBlockGridHeader}"/>
+                            <TextBlock Text="Percentage spent" Grid.Row="0" Grid.Column="2"
+                                       Style="{StaticResource TextBlockGridHeader}"/>
+                            
+                            <!-- Rows -->
+                            <TreeView x:Name="FolderView" Grid.Row="1" Grid.ColumnSpan="3" 
+                                  BorderThickness="0" Margin="0 8 0 0"
+                                    ItemsSource="{Binding Categories}">
+
+                                <TreeView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0 0 0 8">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="150"/>
+                                                    <ColumnDefinition Width="150"/>
+                                                    <ColumnDefinition Width="200"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <!-- Category name -->
+                                                <TextBlock Text="{Binding Name}" Grid.Column="0"
+                                                   Style="{StaticResource TextBlockCategory}"/>
+
+                                                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                                                    <!-- Category amount budgeted -->
+                                                    <TextBlock Text="{Binding Amount}"
+                                                   Style="{StaticResource TextBlockCategory}"/>
+
+                                                    <!-- Currency -->
+                                                    <TextBlock Text="{StaticResource Currency}"
+                                                   Style="{StaticResource TextBlockCategory}"/>
+                                                </StackPanel>
+
+                                                <!-- Category percentage spent -->
+                                                <Grid Grid.Column="2" HorizontalAlignment="Stretch"
+                                                      Background="{StaticResource BackgroundLightBrush}">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Rectangle Fill="{Binding ColorTag, Converter={x:Static converters:HexToBrushConverter.instance}}" 
+                                                               Grid.Column="0"/>
+                                                </Grid>
+                                                
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </TreeView.ItemTemplate>
+
+                            </TreeView>
+
+                        </Grid>
+                        
+                    </Grid>
+
+                </Border>
+
+                <!-- Past months -->
+                <Border Grid.Column="1" Margin="0 8 8 0"
+                        Background="{StaticResource Bubbles_BackgroundBrush}"
+                        CornerRadius="5"
+                        Padding="15">
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Title -->
+                        <TextBlock Text="Past months" Style="{StaticResource TextBlockBubbleTitle}"
+                                   Grid.Row="0"/>
+                    </Grid>
+                </Border>
+
+            </Grid>
+        </DockPanel>
+    </Border>
 </UserControl>
