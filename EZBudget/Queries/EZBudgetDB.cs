@@ -157,7 +157,7 @@ namespace EZBudget.Queries
                     .Select(x => x.Category_Monthly)
                     .SelectMany(y => y)
                     .Select(x => x.Expenses)
-                    .SelectMany(y => y).Where(x => x.CreationDate <= DateTime.Now.AddMonths(-1))
+                    .SelectMany(y => y).Where(x => ((x.CreationDate.Year == DateTime.Now.Year) ? x.CreationDate.Month < DateTime.Now.Month : true))
                     .GroupBy(
                     expense => new { Month = expense.CreationDate.Month, Year = expense.CreationDate.Year},
                     (key, expenses) => new PastMonth
