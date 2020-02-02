@@ -104,8 +104,8 @@
             <!-- Center of the screen -->
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="700" />
-                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="550" />
+                    <ColumnDefinition Width="450"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- Budget categories -->
@@ -147,7 +147,7 @@
                             
                             <!-- Rows -->
                             <TreeView x:Name="FolderView" Grid.Row="1" Grid.ColumnSpan="3" 
-                                  BorderThickness="0" Margin="0 8 0 0"
+                                  BorderThickness="0" Margin="-15 8 0 0"
                                     ItemsSource="{Binding Categories}">
 
                                 <TreeView.ItemTemplate>
@@ -178,12 +178,14 @@
                                                 <Grid Grid.Column="2" HorizontalAlignment="Stretch"
                                                       Background="{StaticResource BackgroundLightBrush}">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="{Binding ProgressBarWidth}"/>
                                                     </Grid.ColumnDefinitions>
 
                                                     <Rectangle Fill="{Binding ColorTag, Converter={x:Static converters:HexToBrushConverter.instance}}" 
                                                                Grid.Column="0"/>
+                                                    <TextBlock Text="{Binding PercentageSpent}" Grid.Column="0"
+                                                               Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                                               FontSize="{StaticResource FontSizeSmall}"/>
                                                 </Grid>
                                                 
                                             </Grid>
