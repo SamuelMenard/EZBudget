@@ -23,6 +23,9 @@
         <DataTemplate DataType="{x:Type sbViewModels:MyExpensesViewModel}">
             <sbPageViews:MyExpensesPageView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type sbViewModels:ChartsViewModel}">
+            <sbPageViews:ChartsPageView/>
+        </DataTemplate>
     </Page.Resources>
 
     <DockPanel Background="{StaticResource BackgroundDeepDarkGrayBrush}">
@@ -110,7 +113,8 @@
                     <Button Grid.Row="2" Content="My Expenses" Tag="&#xf4d3;" Style="{StaticResource SideBarItemButton}"
                     Command="{Binding MyExpensesClick}"/>
 
-                    <Button Grid.Row="3" Content="Charts" Tag="&#xf080;" Style="{StaticResource SideBarItemButton}"/>
+                    <Button Grid.Row="3" Content="Charts" Tag="&#xf080;" Style="{StaticResource SideBarItemButton}"
+                            Command="{Binding ChartsClick}"/>
 
                     <Button Grid.Row="4" Content="Settings" Tag="&#xf013;" Style="{StaticResource SideBarItemButton}"/>
 

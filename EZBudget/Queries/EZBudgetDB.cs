@@ -174,6 +174,59 @@ namespace EZBudget.Queries
             }
         }
 
+        public static List<PastMonth> GetPastMonthsExpenses_WithRange(int userID, int nbOfMonths)
+        {
+            try
+            {
+                var minDate = DateTime.Now.AddMonths(-nbOfMonths);
+                minDate = new DateTime(minDate.Year, minDate.Month, 1);
+
+                var maxDate = DateTime.Now;
+                maxDate = new DateTime(maxDate.Year, maxDate.Month, 1);
+
+                var globalCategories = (from user in context.Users
+                                        where user.UserID == userID
+                                        select user).FirstOrDefault().Budgets.FirstOrDefault()
+                                              .Category_Global;
+
+                var pastMonthsValues = globalCategories
+                    .Select(x => x.Category_Monthly)
+                    .SelectMany(y => y)
+                    .Select(x => x.Expenses)
+                    .SelectMany(y => y).Where(x => x.CreationDate >= minDate && x.CreationDate < maxDate)
+                    .GroupBy(
+                    expense => new { Month = expense.CreationDate.Month, Year = expense.CreationDate.Year },
+                    (key, expenses) => new PastMonth
+                    {
+                        Date = expenses.FirstOrDefault().CreationDate,
+                        TotalExpenses = Math.Round(expenses.Sum(x => x.Amount), 2)
+                    }
+                    ).ToList();
+
+                var pastMonths = new List<PastMonth>();
+                var pastDates = new List<DateTime>();
+                for (var i = 1; i <= nbOfMonths; i++)
+                    pastDates.Add(DateTime.Now.AddMonths(-i));
+
+                pastDates.ForEach(date =>
+                {
+                    var pastMonth = pastMonthsValues.FirstOrDefault(x => (x.Date.Year == date.Year) && (x.Date.Month == date.Month));
+                    if (pastMonth == null)
+                        pastMonths.Add(new PastMonth { Date = date, TotalExpenses = 0 });
+                    else
+                        pastMonths.Add(pastMonth);
+
+
+                });
+
+                return pastMonths.OrderBy(x => x.Date).ToList();
+            }
+            catch
+            {
+                return new List<PastMonth>();
+            }
+        }
+
         public static bool DeleteCategory(int categoryID)
         {
             try

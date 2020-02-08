@@ -35,6 +35,7 @@ namespace EZBudget.ViewModel
         public ICommand DashboardClick { get; set; }
         public ICommand MyBudgetClick { get; set; }
         public ICommand MyExpensesClick { get; set; }
+        public ICommand ChartsClick { get; set; }
         public ICommand SignOutClick { get; set; }
 
         #endregion
@@ -55,6 +56,7 @@ namespace EZBudget.ViewModel
             DashboardClick = new RelayCommand(() => Dashboard_Click());
             MyBudgetClick = new RelayCommand(() => MyBudget_Click());
             MyExpensesClick = new RelayCommand(() => MyExpenses_Click());
+            ChartsClick = new RelayCommand(() => Charts_Click());
             SignOutClick = new RelayCommand(() => SignOut_Click());
         }
 
@@ -86,11 +88,17 @@ namespace EZBudget.ViewModel
             CurrentViewModel = new MyExpensesViewModel(LogedInUsername);
         }
 
+        private void Charts_Click()
+        {
+            CurrentViewModel = new ChartsViewModel(LogedInUsername);
+        }
+
         private void SignOut_Click()
         {
             // Go back to login
             ChangePage(ApplicationPageEnum.Login);
         }
+        
 
         #endregion
     }

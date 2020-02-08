@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="EZBudget.UserControls.SideBarUserControls.ChartsPageView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EZBudget.UserControls.SideBarUserControls"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="900" d:DesignWidth="1000">
+    
+    <Border Background="{StaticResource BackgroundLightBrush}" Padding="8">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1000" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Past months expenses chart -->
+            <Border Grid.Column="0" Grid.Row="0" Margin="0 0 0 5"
+                        Background="{StaticResource Bubbles_BackgroundBrush}"
+                        CornerRadius="5"
+                        Padding="15">
+
+                
+
+            </Border>
+
+            <!-- Past months expenses chart -->
+            <Border Grid.Column="0" Grid.Row="1" Margin="0 5 0 0"
+                        Background="{StaticResource Bubbles_BackgroundBrush}"
+                        CornerRadius="5"
+                        Padding="15">
+
+                    <lvc:CartesianChart Series="{Binding PastMonths_SeriesCollection}" LegendLocation="Top" Margin="0 0 10 0">
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Total expenses" LabelFormatter="{Binding PastMonths_YFormatter}" MinValue="0"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Months" Labels="{Binding PastMonths_Labels}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
+
+            </Border>
+
+        </Grid>
+    </Border>
+</UserControl>
