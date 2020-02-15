@@ -31,6 +31,33 @@ namespace EZBudget.ViewModel.SidebarViewModels
         public decimal TotalBudgeted { get; set; }
 
         public ObservableCollection<Category> Categories { get; set; }
+        public Category selectedCategory { get; set; }
+        public Category SelectedCategory
+        {
+            get
+            {
+                return selectedCategory;
+            }
+            set
+            {
+                Init_PastMonthsExpenses_SpecificCategory_Chart(value.GlobalID, selectedMonth);
+                selectedCategory = value;
+            }
+        }
+
+        public int[] MonthSelectorItems { get; set; } = { 3, 6, 9, 12 };
+        public int selectedMonth { get; set; }
+        public int SelectedMonth {
+            get
+            {
+                return selectedMonth;
+            }
+            set 
+            {
+                Init_PastMonthsExpenses_SpecificCategory_Chart(selectedCategory.GlobalID, value);
+                selectedMonth = value;
+            } 
+        }
 
         #endregion
 
@@ -40,6 +67,12 @@ namespace EZBudget.ViewModel.SidebarViewModels
         public SeriesCollection PastMonths_SeriesCollection { get; set; }
         public string[] PastMonths_Labels { get; set; }
         public Func<double, string> PastMonths_YFormatter { get; set; }
+        // **************************************** //
+
+        // properties for the past months specific category chart ******** //
+        public SeriesCollection PastMonths_SpecificCategory_SeriesCollection { get; set; }
+        public string[] PastMonths_SpecificCategory_Labels { get; set; }
+        public Func<double, string> PastMonths_SpecificCategory_YFormatter { get; set; }
         // **************************************** //
 
         #endregion
@@ -68,6 +101,13 @@ namespace EZBudget.ViewModel.SidebarViewModels
             PopulateViewModel();
 
             Init_PastMonthsExpenses_Chart(6);
+
+            selectedMonth = MonthSelectorItems[1];
+            if (Categories.Count > 0)
+            {
+                SelectedCategory = Categories.FirstOrDefault();
+                Init_PastMonthsExpenses_SpecificCategory_Chart(selectedCategory.GlobalID, selectedMonth);
+            }
         }
 
         #endregion
@@ -147,8 +187,6 @@ namespace EZBudget.ViewModel.SidebarViewModels
             // Get and set the "Categories"
             Categories = EZBudgetDB.GetCurrentMonthCategoriesWithExpenses(LogedInUserID);
 
-            
-
             // If it is a new month
             if (Categories.Count == 0)
             {
@@ -187,9 +225,35 @@ namespace EZBudget.ViewModel.SidebarViewModels
                     LineSmoothness = 1 //0: straight lines, 1: really smooth lines
                 },
             };
-
+            
             PastMonths_Labels = labels.ToArray();
             PastMonths_YFormatter = value => value.ToString("C");
+        }
+
+        private void Init_PastMonthsExpenses_SpecificCategory_Chart(int globalCategoryId, int nbOfMonths)
+        {
+            // Get and set the "Past months"
+            var pastMonths = EZBudgetDB.GetPastMonthsExpenses_SpecificCategory_WithRange(LogedInUserID, nbOfMonths, globalCategoryId);
+
+            var values = new ChartValues<double>();
+            var labels = new List<string>();
+            pastMonths.ForEach(x => {
+                values.Add(decimal.ToDouble(x.TotalExpenses));
+                labels.Add($"{x.Month} {x.Year}");
+            });
+
+            PastMonths_SpecificCategory_SeriesCollection = new SeriesCollection
+            {
+                new LineSeries
+                {
+                    Title = "Past months expenses",
+                    Values =  values,
+                    LineSmoothness = 1 //0: straight lines, 1: really smooth lines
+                },
+            };
+
+            PastMonths_SpecificCategory_Labels = labels.ToArray();
+            PastMonths_SpecificCategory_YFormatter = value => value.ToString("C");
         }
 
         #endregion

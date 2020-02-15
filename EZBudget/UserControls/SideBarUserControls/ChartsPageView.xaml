@@ -7,30 +7,76 @@
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              mc:Ignorable="d" 
              d:DesignHeight="900" d:DesignWidth="1000">
-    
+
     <Border Background="{StaticResource BackgroundLightBrush}" Padding="8">
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1000" />
-            </Grid.ColumnDefinitions>
-
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- Past months expenses chart -->
-            <Border Grid.Column="0" Grid.Row="0" Margin="0 0 0 5"
+            <!-- Past months expenses specific category chart -->
+            <Border Grid.Row="0" Margin="0 0 5 5"
                         Background="{StaticResource Bubbles_BackgroundBrush}"
                         CornerRadius="5"
                         Padding="15">
 
-                
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0" Margin="15 0 0 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" HorizontalAlignment="Left"
+                                    Margin="0 0 8 0">
+                            <TextBlock Text="Category" Style="{StaticResource BaseTextBlockStyle}"/>
+                            <ComboBox Height="30" Width="100" HorizontalAlignment="Left" VerticalContentAlignment="Center"
+                                      ItemsSource="{Binding Categories}"
+                                      SelectedItem="{Binding SelectedCategory}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Padding="2">
+                                            <StackPanel Orientation="Horizontal">
+                                                <Rectangle Fill="{Binding ColorTag}" Width="13" Height="13" Margin="0,2,5,2" />
+                                                <TextBlock Text="{Binding Name}" Style="{StaticResource TextBlockGridHeader}"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Left"
+                                    Margin="8 0 0 0">
+                            <TextBlock Text="Number of months" Style="{StaticResource BaseTextBlockStyle}"/>
+                            <ComboBox Height="30" Width="50" HorizontalAlignment="Left" VerticalContentAlignment="Center"
+                                      ItemsSource="{Binding MonthSelectorItems}"
+                                      SelectedItem="{Binding SelectedMonth}">
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+
+                    <lvc:CartesianChart Series="{Binding PastMonths_SpecificCategory_SeriesCollection}" 
+                                        Grid.Row="2" LegendLocation="Top" Margin="0 0 10 0">
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Total expenses" LabelFormatter="{Binding PastMonths_SpecificCategory_YFormatter}" MinValue="0"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Months" Labels="{Binding PastMonths_SpecificCategory_Labels}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                    </lvc:CartesianChart>
+                </Grid>
 
             </Border>
 
             <!-- Past months expenses chart -->
-            <Border Grid.Column="0" Grid.Row="1" Margin="0 5 0 0"
+            <Border Grid.ColumnSpan="3" Grid.Row="1" Margin="0 5 0 0"
                         Background="{StaticResource Bubbles_BackgroundBrush}"
                         CornerRadius="5"
                         Padding="15">
